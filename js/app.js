@@ -1058,7 +1058,12 @@ function renderTeams(){
 
 function showTeamDetail(tid){
   const t=teamById(tid);if(!t)return;
-  const squad=PLAYERS.filter(p=>p.team===tid);
+  const squadSeen = new Set();
+  const squad = PLAYERS.filter(p => p.team === tid).filter(p => {
+    if (squadSeen.has(p.name)) return false;
+    squadSeen.add(p.name);
+    return true;
+  });
   const topBat=[...squad].filter(p=>p.runs>0).sort((a,b)=>b.runs-a.runs)[0];
   const topBowl=[...squad].filter(p=>p.wkts>0).sort((a,b)=>b.wkts-a.wkts)[0];
   const allTimeTitles=SEASON_WINNERS.filter(s=>s.winner===t.name).map(s=>s.year);
@@ -1104,9 +1109,14 @@ function showTeamDetail(tid){
   if(radCtx){chartInstances['teamRadar']=new Chart(radCtx.getContext('2d'),{type:'radar',data:{labels:['Win Rate','Season Form','Avg Score','Home Strength','Titles','NRR'],datasets:[{label:t.abbr,data:tStats,borderColor:t.color,backgroundColor:t.color+'33',pointBackgroundColor:t.color,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{grid:{color:gridColor()},pointLabels:{color:'#8b9ab5',font:{size:11}},ticks:{display:false},min:0,max:100}},plugins:{legend:{display:false}}}});}
 }
 
-/* ── COMPARE ── */
 function renderCompare(){
-  const opts=PLAYERS.map(p=>`<option value="${p.id}">${p.name} (${teamById(p.team)?.abbr})</option>`).join('');
+  const seen = new Set();
+  const dedupedPlayers = PLAYERS.filter(p => {
+    if (seen.has(p.name)) return false;
+    seen.add(p.name);
+    return true;
+  });
+  const opts = dedupedPlayers.map(p => `<option value="${p.id}">${p.name} (${teamById(p.team)?.abbr})</option>`).join('');
   $('#compareWidget').innerHTML=`
     <div class="compare-header">
       <select class="compare-select" id="cmpA">${opts}</select>
