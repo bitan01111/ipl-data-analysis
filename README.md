@@ -3,7 +3,7 @@
 A premium, recruiter-ready sports analytics platform built using pure front-end web technologies. This application showcases highly responsive UI design, statistical predictive models, clean Javascript state management, and optimized data visualization.
 
 ## 🚀 Live Demo
-👉 **[View Live Platform](https://bitan01111.github.io/ipl-data-analysis/)**
+👉 **[View Live Platform](https://iplintel.netlify.app/)**
 
 ---
 
