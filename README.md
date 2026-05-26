@@ -3,7 +3,7 @@
 A premium, recruiter-ready sports analytics platform built using pure front-end web technologies. This application showcases highly responsive UI design, statistical predictive models, clean Javascript state management, and optimized data visualization.
 
 ## 🚀 Live Demo
-👉 **[View Live Platform](https://your-github-username.github.io/your-repo-name/)** *(Update with your deployed link!)*
+👉 **[View Live Platform](https://bitan01111.github.io/ipl-data-analysis/)**
 
 ---
 
@@ -35,7 +35,7 @@ Since this is built with pure web standards, there are **no installation or buil
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/ipl-intelligence.git
+   git clone https://github.com/bitan01111/ipl-data-analysis.git
    ```
 2. Open `index.html` directly in any web browser, or serve it locally:
    ```bash
