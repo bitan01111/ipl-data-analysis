@@ -221,58 +221,43 @@
 
 <!-- PREMIUM PLAYER DASHBOARD -->
 <div id="pdashOverlay" class="pdash-overlay" onclick="if(event.target===this)closePDash()">
-  <div class="pdash-modal" id="pdashModal" style="max-width: 900px; width: 100%;">
-    <div class="pdash-modal-header">
-      <button class="pdash-close-btn" onclick="closePDash()">✕</button>
-    </div>
+  <div class="pdash-modal" id="pdashModal" style="max-width: 850px; width: 100%;">
+    <button class="pdash-close-btn" onclick="closePDash()">✕</button>
     <div class="pdash-grid">
-      <!-- LEFT: Image & Glow -->
+      <!-- LEFT: Image & Rotated Watermark -->
       <div class="pdash-left animate-reveal">
+        <div class="pdash-watermark">PLAYER PROFILE</div>
         <div class="pdash-img-container">
           <div class="pdash-glow-bg" id="pdashGlow"></div>
           <img id="pdashImg" class="pdash-img-transparent" src="" alt="" onerror="this.src='https://ui-avatars.com/api/?name=Player&background=1a2436&color=f5a623&size=200&bold=true'">
-          <div class="pdash-img-blend"></div>
         </div>
       </div>
       
-      <!-- CENTER: Info & Styles -->
-      <div class="pdash-center animate-reveal" style="animation-delay: 0.05s;">
-        <div class="pdash-team-tag" id="pdashTeamTag"></div>
-        <h2 class="pdash-title-name" id="pdashName"></h2>
-        <div class="pdash-role-badge" id="pdashRole"></div>
-        
-        <div class="pdash-style-list">
-          <div class="pdash-style-item">
-            <span class="lbl">Batting Style</span>
-            <span class="val" id="pdashBatStyle">Right-hand bat</span>
+      <!-- RIGHT: Info, Toggles & 3x3 Stats Grid -->
+      <div class="pdash-right animate-reveal" style="animation-delay: 0.05s;">
+        <div class="pdash-top-row">
+          <div class="pdash-info">
+            <h2 class="pdash-title-name" id="pdashName"></h2>
+            <div class="pdash-style" id="pdashStyleText"></div>
           </div>
-          <div class="pdash-style-item">
-            <span class="lbl">Bowling Style</span>
-            <span class="val" id="pdashBowlStyle">Right-arm fast-medium</span>
+          <div class="pdash-toggle-bar">
+            <button class="pdash-toggle-btn active" data-tab="batting" onclick="switchPDashTab('batting',this)">Batting</button>
+            <button class="pdash-toggle-btn" data-tab="bowling" onclick="switchPDashTab('bowling',this)">Bowling</button>
           </div>
-        </div>
-        
-        <div class="pdash-form-section">
-          <span class="pdash-section-lbl">Recent Form</span>
-          <div class="pdash-form-row" id="pdashFormRow"></div>
-        </div>
-      </div>
-      
-      <!-- RIGHT: Toggle & Stats -->
-      <div class="pdash-right animate-reveal" style="animation-delay: 0.1s;">
-        <div class="pdash-toggle-bar">
-          <button class="pdash-toggle-btn active" data-tab="batting" onclick="switchPDashTab('batting',this)">Batting</button>
-          <button class="pdash-toggle-btn" data-tab="bowling" onclick="switchPDashTab('bowling',this)">Bowling</button>
-          <button class="pdash-toggle-btn" data-tab="fielding" onclick="switchPDashTab('fielding',this)">Fielding</button>
-          <button class="pdash-toggle-btn" data-tab="career" onclick="switchPDashTab('career',this)">Career</button>
         </div>
         
         <div class="pdash-stats-container" id="pdashStatsContent">
-          <!-- Dynamic stat cards go here -->
+          <!-- 3x3 Grid of stats injected dynamically -->
         </div>
         
-        <div class="pdash-chart-container">
-          <canvas id="pdashChart" style="height: 120px; width: 100%;"></canvas>
+        <div class="pdash-bottom-row">
+          <div class="pdash-form-section">
+            <span class="pdash-section-lbl">Recent Form</span>
+            <div class="pdash-form-row" id="pdashFormRow"></div>
+          </div>
+          <div class="pdash-actions">
+            <button class="pdash-compare-btn" id="pdashCompareBtn">Compare</button>
+          </div>
         </div>
       </div>
     </div>

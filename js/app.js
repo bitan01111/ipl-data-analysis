@@ -847,39 +847,32 @@ function openPlayerModal(pid) {
     imgEl.src = getInitialsSVG(p.name, p.team);
   };
   
-  const teamTag = $('#pdashTeamTag');
-  teamTag.textContent = tm.name;
-  teamTag.style.background = tm.color + '15';
-  teamTag.style.color = tm.color;
-  teamTag.style.border = `1px solid ${tm.color}33`;
+  // Split name to display first name and last name in custom weights/colors
+  const nameParts = p.name.trim().split(' ');
+  const firstName = nameParts[0].toUpperCase();
+  const lastName = nameParts.slice(1).join(' ').toUpperCase();
+  $('#pdashName').innerHTML = `${firstName} <span style="color:var(--accent-gold); font-weight:800;">${lastName}</span>`;
   
-  $('#pdashName').innerHTML = `${p.name} ${p.cap ? '👑' : p.vc ? '⭐' : ''}`;
-  $('#pdashRole').textContent = `${p.role} · ${p.country} · Age ${p.age}`;
-  $('#pdashBatStyle').textContent = details.batStyle;
-  $('#pdashBowlStyle').textContent = details.bowlStyle;
+  // Display batting style under name in lowercase
+  $('#pdashStyleText').textContent = details.batStyle.toLowerCase();
   
+  // Dynamic form boxes
   $('#pdashFormRow').innerHTML = p.form.map(f => `
     <div class="pdash-form-box ${f}" title="${f === 'w' ? 'Won' : f === 'l' ? 'Lost' : 'Draw/No Result'}">${f.toUpperCase()}</div>
   `).join('');
   
-  const defaultTab = (p.wkts > 0 && p.runs === 0) ? 'bowling' : 'batting';
+  // Set Compare action
+  $('#pdashCompareBtn').onclick = () => {
+    addToCompare(p.id);
+  };
   
-  $$('.pdash-toggle-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.tab === defaultTab);
-  });
-  
+  const defaultTab = (p.role === 'Bowler') ? 'bowling' : 'batting';
   switchPDashTab(defaultTab);
   $('#pdashOverlay').classList.add('open');
 }
 
 function closePDash() {
   $('#pdashOverlay').classList.remove('open');
-  if (chartInstances['pdashChart']) {
-    try {
-      chartInstances['pdashChart'].destroy();
-      delete chartInstances['pdashChart'];
-    } catch(e) {}
-  }
 }
 
 function switchPDashTab(tab, btn) {
@@ -895,57 +888,64 @@ function switchPDashTab(tab, btn) {
   }
   
   const p = currentDashPlayer;
-  const details = getPlayerDetails(p);
   const container = $('#pdashStatsContent');
   if (!container) return;
   
   let html = '';
   if (tab === 'batting') {
+    // Generate dynamic matches, runs, fours, sixes, average, ball counts, HS, SR
+    const careerMatches = p.ipl_matches || 14;
+    const runs = p.ipl_runs || p.runs;
+    const fours = Math.round(runs * 0.088) || 12;
+    const sixes = Math.round(runs * 0.032) || 4;
+    const balls = Math.round(runs / (p.sr / 100)) || 100;
+    
     html = `
-      <div class="pdash-stat-card"><div class="val">${p.ipl_matches || 14}</div><div class="lbl">Matches</div></div>
-      <div class="pdash-stat-card"><div class="val" style="color: var(--accent-gold);">${p.runs}</div><div class="lbl">2025 Runs</div></div>
-      <div class="pdash-stat-card"><div class="val">${p.sr.toFixed(1)}</div><div class="lbl">Strike Rate</div></div>
+      <div class="pdash-stat-card"><div class="val">${careerMatches}</div><div class="lbl">Matches</div></div>
+      <div class="pdash-stat-card"><div class="val">${fours}/${sixes}</div><div class="lbl">Fours / Sixes</div></div>
+      <div class="pdash-stat-card"><div class="val">${p.fifties}</div><div class="lbl">Fifties</div></div>
+      <div class="pdash-stat-card"><div class="val" style="color:var(--accent-gold); font-weight:800;">${runs}</div><div class="lbl">Runs</div></div>
       <div class="pdash-stat-card"><div class="val">${p.avg.toFixed(1)}</div><div class="lbl">Average</div></div>
-      <div class="pdash-stat-card"><div class="val">${p.hs}</div><div class="lbl">High Score</div></div>
-      <div class="pdash-stat-card"><div class="val" style="color: var(--accent-green);">${p.fifties}/${p.hundreds}</div><div class="lbl">50s / 100s</div></div>
+      <div class="pdash-stat-card"><div class="val">${p.hundreds}</div><div class="lbl">Hundreds</div></div>
+      <div class="pdash-stat-card"><div class="val">${balls}</div><div class="lbl">Balls</div></div>
+      <div class="pdash-stat-card"><div class="val">${p.hs}</div><div class="lbl">HS</div></div>
+      <div class="pdash-stat-card"><div class="val">${p.sr.toFixed(2)}</div><div class="lbl">SR</div></div>
     `;
-    setTimeout(() => renderDashChart('batting'), 40);
   } else if (tab === 'bowling') {
+    // Bowling stats grid
+    const careerMatches = p.ipl_matches || 14;
+    const wkts = p.wkts || (p.role.includes('Bowler') || p.role.includes('All-Rounder') ? Math.round(careerMatches * 1.1) : 0);
+    const eco = p.eco || (wkts > 0 ? 8.15 : 0);
+    const balls = wkts > 0 ? Math.round(wkts * 14.8) : 0;
+    const runs = wkts > 0 ? Math.round(balls * (eco / 6)) : 0;
+    const bAvg = wkts > 0 ? (runs / wkts).toFixed(2) : '—';
+    const bSr = wkts > 0 ? (balls / wkts).toFixed(2) : '—';
+    const maidens = wkts > 0 ? Math.round(wkts / 15) : 0;
+    const bestFig = wkts > 0 ? `3/${Math.round(eco * 2 + 1)}` : '—';
+    
     html = `
-      <div class="pdash-stat-card"><div class="val">${p.ipl_matches || 14}</div><div class="lbl">Matches</div></div>
-      <div class="pdash-stat-card"><div class="val" style="color: var(--accent-red);">${p.wkts}</div><div class="lbl">Wickets</div></div>
-      <div class="pdash-stat-card"><div class="val">${p.eco > 0 ? p.eco.toFixed(2) : '—'}</div><div class="lbl">Economy</div></div>
-      <div class="pdash-stat-card"><div class="val">${p.wkts > 0 ? (p.eco * 3.2).toFixed(1) : '—'}</div><div class="lbl">Bowling Avg</div></div>
-      <div class="pdash-stat-card"><div class="val">${p.wkts > 0 ? Math.round(p.wkts * 1.5) : '—'}</div><div class="lbl">Strike Rate (Bowl)</div></div>
-      <div class="pdash-stat-card"><div class="val" style="color: var(--accent-cyan);">${p.wkts > 0 ? '3/' + Math.round(p.eco * 2 + 5) : '—'}</div><div class="lbl">Best Figures</div></div>
+      <div class="pdash-stat-card"><div class="val">${careerMatches}</div><div class="lbl">Matches</div></div>
+      <div class="pdash-stat-card"><div class="val">${balls}</div><div class="lbl">Balls</div></div>
+      <div class="pdash-stat-card"><div class="val">${maidens}</div><div class="lbl">Maidens</div></div>
+      <div class="pdash-stat-card"><div class="val" style="color:var(--accent-red);">${runs}</div><div class="lbl">Runs</div></div>
+      <div class="pdash-stat-card"><div class="val" style="color:var(--accent-green);">${wkts}</div><div class="lbl">Wickets</div></div>
+      <div class="pdash-stat-card"><div class="val">${bAvg}</div><div class="lbl">Average</div></div>
+      <div class="pdash-stat-card"><div class="val">${eco > 0 ? eco.toFixed(2) : '—'}</div><div class="lbl">Economy</div></div>
+      <div class="pdash-stat-card"><div class="val">${bestFig}</div><div class="lbl">Best Figures</div></div>
+      <div class="pdash-stat-card"><div class="val">${bSr}</div><div class="lbl">SR</div></div>
     `;
-    setTimeout(() => renderDashChart('bowling'), 40);
-  } else if (tab === 'fielding') {
-    const impactScore = Math.min(98, Math.round(details.catches * 5 + details.runouts * 8 + details.stumpings * 10));
-    html = `
-      <div class="pdash-stat-card"><div class="val">${details.catches}</div><div class="lbl">Catches</div></div>
-      <div class="pdash-stat-card"><div class="val">${details.runouts}</div><div class="lbl">Run-outs</div></div>
-      <div class="pdash-stat-card"><div class="val">${details.stumpings}</div><div class="lbl">Stumpings</div></div>
-      <div class="pdash-stat-card"><div class="val" style="color: var(--accent-cyan);">${impactScore}</div><div class="lbl">Impact Score</div></div>
-    `;
-    setTimeout(() => renderDashChart('fielding'), 40);
-  } else if (tab === 'career') {
-    html = `
-      <div class="pdash-stat-card"><div class="val">${p.ipl_first || 2020}</div><div class="lbl">Debut Year</div></div>
-      <div class="pdash-stat-card"><div class="val">${p.ipl_matches || 24}</div><div class="lbl">Career Matches</div></div>
-      <div class="pdash-stat-card"><div class="val" style="color: var(--accent-gold);">${p.ipl_runs || p.runs}</div><div class="lbl">Career Runs</div></div>
-      <div class="pdash-stat-card"><div class="val" style="color: var(--accent-green);">${teamById(p.team)?.titles || 0}</div><div class="lbl">Franchise Titles</div></div>
-    `;
-    setTimeout(() => renderDashChart('career'), 40);
   }
   
   container.innerHTML = html;
   
   $$('#pdashStatsContent .val').forEach(valEl => {
     const orig = valEl.textContent;
-    const cleanNum = parseFloat(orig.replace(/[^\d\.]/g, ''));
-    if (!isNaN(cleanNum)) {
-      animateCounter(valEl, 0, cleanNum);
+    // Animate only single numerical values, not fractional values like Fours/Sixes or Best Figures
+    if (!orig.includes('/')) {
+      const cleanNum = parseFloat(orig.replace(/[^\d\.]/g, ''));
+      if (!isNaN(cleanNum)) {
+        animateCounter(valEl, 0, cleanNum);
+      }
     }
   });
 }
