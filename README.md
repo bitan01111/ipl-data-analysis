@@ -3,7 +3,7 @@
 A premium sports analytics dashboard and predictive engine built using standard front-end web technologies. This project is designed to demonstrate clean code separation, statistical data modeling, and interactive UI engineering.
 
 ## 🚀 Live Demo
-👉 **[View Live Platform](https://iplintel.netlify.app/)**
+👉 **[View Live Platform](https://ipl-intel.netlify.app/)**
 
 ---
 
