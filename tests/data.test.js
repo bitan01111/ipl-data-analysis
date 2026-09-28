@@ -6,6 +6,7 @@ const test = require('node:test');
 const root = path.resolve(__dirname, '..');
 const data = JSON.parse(fs.readFileSync(path.join(root, 'data.json'), 'utf8'));
 const appSource = fs.readFileSync(path.join(root, 'js', 'app.js'), 'utf8');
+const htmlSource = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 
 test('dataset contains the documented latest season and core collections', () => {
   assert.equal(data.SEASON_WINNERS.at(-1).year, 2024);
@@ -26,4 +27,16 @@ test('player and team identifiers are unique', () => {
 test('application source stays aligned with the dataset version', () => {
   assert.doesNotMatch(appSource, /2025/);
   assert.match(appSource, /DATA_YEAR/);
+  assert.doesNotMatch(appSource, /Default to random/);
+});
+
+test('application shell exposes every routed page and data entry point', () => {
+  const pages = ['dashboard', 'seasons', 'players', 'teams', 'compare', 'venues', 'predictor', 'fantasy', 'insights'];
+
+  for (const page of pages) {
+    assert.match(htmlSource, new RegExp(`id="page-${page}"`));
+    assert.match(htmlSource, new RegExp(`data-page="${page}"`));
+  }
+
+  assert.match(appSource, /fetch\(['"]data\.json['"]\)/);
 });

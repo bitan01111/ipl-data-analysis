@@ -4,20 +4,24 @@
   "description": "Interactive IPL analytics dashboard built with HTML, CSS, JavaScript, Chart.js, and a transparent statistics model.",
   "scripts": {
     "dev": "vite",
-    "test": "node --test tests/data.test.js"
+    "test": "node --test tests/data.test.js",
+    "check": "npm test && node --check js/app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bitan01111/ipl-data-analysis.git"
+    "url": "git+https://github.com/raj-deep-20/ipl-data-analysis.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["ipl", "cricket", "sports-analytics", "data-visualization", "javascript", "vite"],
+  "author": "Rajdeep",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/bitan01111/ipl-data-analysis/issues"
+    "url": "https://github.com/raj-deep-20/ipl-data-analysis/issues"
   },
-  "homepage": "https://github.com/bitan01111/ipl-data-analysis#readme",
+  "homepage": "https://github.com/raj-deep-20/ipl-data-analysis#readme",
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
     "vite": "^8.3.1"
   }

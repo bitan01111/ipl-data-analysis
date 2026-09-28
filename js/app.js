@@ -1299,7 +1299,7 @@ function renderInsights(){
     if(chartInstances['chartMoneyball']){try{chartInstances['chartMoneyball'].destroy();}catch(e){}}
     const scatterData = PLAYERS.map(p => {
         let pts = p.pts || (p.runs + p.wkts * 25);
-        let price = p.price || (Math.random() * 15 + 2); // Default to random 2-17 cr if none
+        const price = p.price || Number((2 + (pts % 1500) / 100).toFixed(1));
         return {
             x: price,
             y: pts,
