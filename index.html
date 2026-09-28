@@ -7,7 +7,7 @@
   ==========================================
   Version  : 4.0.0  (Full Data Edition)
   Stack    : Pure HTML + CSS + Vanilla JS + Chart.js (CDN)
-  Data     : Real IPL dataset Season 1 (2008) → 2025 (latest completed)
+  Data     : Real IPL dataset Season 1 (2008) → 2024 (latest completed)
   Players  : 150+ players with HQ Wikipedia Commons images
   Features : Season filter · Team analytics · Player compare · Predictor
              Fantasy XI · Radar charts · Momentum timeline · Search/filter
@@ -17,10 +17,11 @@
 -->
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>IPL Intelligence 2026 · Analytics Platform | Season 2008-2025 | 150+ Players</title>
+<title>IPL Intelligence 2026 · Analytics Platform | Season 2008-2024 | 150+ Players</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -66,9 +67,9 @@
   <div class="hero-banner animate-in">
     <div class="hero-number">18</div>
     <div class="hero-text">
-      <div class="hero-sub">Season 2008–2025 · Intelligence Platform</div>
+      <div class="hero-sub">Season 2008–2024 · Intelligence Platform</div>
       <h1 class="hero-title">IPL <em>Analytics</em><br>Intelligence</h1>
-      <p class="hero-desc">Premium cricket analytics covering all 18 IPL seasons (2008–2025). Real player data, predictive modelling, fantasy XI builder, head-to-head comparisons, and deep squad analytics — 100% client-side, zero setup.</p>
+      <p class="hero-desc">Premium cricket analytics covering all 18 IPL seasons (2008–2024). Real player data, predictive modelling, fantasy XI builder, head-to-head comparisons, and deep squad analytics — 100% client-side, zero setup.</p>
       <div class="hero-pills">
         <span class="hero-pill">18 Seasons</span>
         <span class="hero-pill">10 Teams</span>
@@ -78,14 +79,14 @@
       </div>
     </div>
   </div>
-  <div class="sec-head"><div class="sec-title">IPL <span>2025 Snapshot</span></div><div class="sec-tag">LATEST SEASON</div></div>
+  <div class="sec-head"><div class="sec-title">IPL <span>2024 Snapshot</span></div><div class="sec-tag">LATEST SEASON</div></div>
   <div class="sec-divider"></div>
   <div class="score-cards-row stagger" id="dashStatCards"></div>
   <div class="grid-2" style="margin-bottom:28px">
-    <div class="chart-card"><div class="chart-title">Top <span>Run Scorers</span> — 2025</div><div class="chart-wrap"><canvas id="chartTopRunners"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Top <span>Wicket Takers</span> — 2025</div><div class="chart-wrap"><canvas id="chartTopWickets"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Top <span>Run Scorers</span> — 2024</div><div class="chart-wrap"><canvas id="chartTopRunners"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Top <span>Wicket Takers</span> — 2024</div><div class="chart-wrap"><canvas id="chartTopWickets"></canvas></div></div>
   </div>
-  <div class="sec-head"><div class="sec-title">Points <span>Table</span> 2025</div></div>
+  <div class="sec-head"><div class="sec-title">Points <span>Table</span> 2024</div></div>
   <div class="sec-divider"></div>
   <div id="standingsTable"></div>
   <div class="grid-2" style="margin-top:28px">
@@ -96,7 +97,7 @@
 
 <!-- Seasons -->
 <section class="page" id="page-seasons">
-  <div class="sec-head"><div class="sec-title">All <span>Seasons</span></div><div class="sec-tag">2008–2025</div></div>
+  <div class="sec-head"><div class="sec-title">All <span>Seasons</span></div><div class="sec-tag">2008–2024</div></div>
   <div class="sec-divider"></div>
   <div class="season-timeline"><div class="season-list" id="seasonChips"></div></div>
   <div id="seasonDetail"></div>
@@ -116,7 +117,7 @@
 
 <!-- Teams -->
 <section class="page" id="page-teams">
-  <div class="sec-head"><div class="sec-title">Team <span>Analytics</span></div><div class="sec-tag">IPL 2025</div></div>
+  <div class="sec-head"><div class="sec-title">Team <span>Analytics</span></div><div class="sec-tag">IPL 2024</div></div>
   <div class="sec-divider"></div>
   <div class="grid-3 stagger" id="teamGrid"></div>
   <div id="teamDetail" style="margin-top:28px"></div>
@@ -171,6 +172,12 @@
       <div class="chart-card"><div class="chart-title">Head-to-Head <span>Record</span></div><div class="chart-wrap"><canvas id="chartH2H"></canvas></div></div>
     </div>
     <div id="predInsights" style="margin-top:16px"></div>
+    <div class="simulator-card" style="margin-top: 24px; padding: 20px; border-top: 1px solid var(--border);" data-aos="fade-up">
+      <div class="sec-head" style="margin-bottom: 12px;"><div class="sec-title" style="font-size: 18px;">Monte Carlo <span>Match Simulator</span></div></div>
+      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Simulate a dynamic T20 innings based on historical strike rates and player stats.</p>
+      <button class="predict-btn" id="simulateBtn" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue-bright)); padding: 10px 20px; font-size: 14px;">🎮 Run Live Simulation</button>
+      <div id="simLog" style="margin-top: 20px; height: 180px; overflow-y: auto; background: var(--bg-card2); padding: 16px; border-radius: var(--radius); font-family: var(--font-mono); font-size: 13px; color: var(--accent-green); display: none; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);"></div>
+    </div>
   </div>
 </section>
 
@@ -199,20 +206,24 @@
   <div class="sec-head"><div class="sec-title">Strategy <span>Insights</span></div><div class="sec-tag">HIDDEN TRENDS</div></div>
   <div class="sec-divider"></div>
   <div class="momentum-wrap">
-    <div style="font-family:var(--font-display);font-size:18px;font-weight:900;letter-spacing:1px;margin-bottom:16px">Team Momentum <span style="color:var(--accent-gold)">Timeline — 2025</span></div>
+    <div style="font-family:var(--font-display);font-size:18px;font-weight:900;letter-spacing:1px;margin-bottom:16px">Team Momentum <span style="color:var(--accent-gold)">Timeline — 2024</span></div>
     <div class="chart-wrap" style="height:240px"><canvas id="chartMomentum"></canvas></div>
   </div>
   <div class="grid-2" style="margin-bottom:28px">
     <div class="chart-card"><div class="chart-title">All-time <span>Titles</span> Distribution</div><div class="chart-wrap"><canvas id="chartTitles"></canvas></div></div>
     <div class="chart-card"><div class="chart-title">Season <span>Run Rate</span> Progression</div><div class="chart-wrap"><canvas id="chartRunRate"></canvas></div></div>
   </div>
-  <div style="margin-bottom:28px">
+  <div style="margin-bottom:28px" data-aos="fade-up">
     <div class="sec-head"><div class="sec-title">Why Teams <span>Win</span></div></div>
     <div id="strategyCards"></div>
   </div>
-  <div class="sec-head"><div class="sec-title">Hidden <span>Trends</span></div><div class="sec-tag">INTELLIGENCE</div></div>
+  <div class="chart-card" style="margin-bottom:28px" data-aos="zoom-in">
+    <div class="chart-title">"Moneyball" Value Analysis <span>(Price vs Performance)</span></div>
+    <div class="chart-wrap" style="height:400px"><canvas id="chartMoneyball"></canvas></div>
+  </div>
+  <div class="sec-head" data-aos="fade-up"><div class="sec-title">Hidden <span>Trends</span></div><div class="sec-tag">INTELLIGENCE</div></div>
   <div class="sec-divider"></div>
-  <div class="trend-grid stagger" id="trendCards"></div>
+  <div class="trend-grid stagger" id="trendCards" data-aos="fade-up"></div>
 </section>
 
 </div><!-- /app -->
@@ -291,7 +302,7 @@
 
 <footer id="footer">
   <div class="footer-brand">IPL <span>INTEL</span> — Analytics Intelligence Platform</div>
-  <div class="footer-meta">Real IPL data Season 2008–2025 · 150+ Players · All stats sourced from IPLt20.com / ESPNCricinfo · Standalone SPA · GitHub-deployable · Zero dependencies</div>
+  <div class="footer-meta">Curated IPL data Season 2008–2024 · 150+ Players · Sources: IPLt20.com / ESPNcricinfo · Client-side SPA</div>
 </footer>
 
 <script defer src="js/app.js"></script>
@@ -302,8 +313,11 @@
       <div class="swap-modal-title">🔄 <span id="swapModalTitle">Swap Player</span></div>
       <button onclick="document.getElementById('swapModal').classList.remove('open')" style="font-size:20px;color:var(--text-muted);background:none;border:none;cursor:pointer">✕</button>
     </div>
-    <div id="swapAlternatives"></div>
   </div>
 </div>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 800, once: true });
+</script>
 </body>
 </html>

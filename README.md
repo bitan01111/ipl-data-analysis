@@ -1,71 +1,60 @@
-# 🏏 IPL Intelligence & Analytics Platform
+# IPL Intelligence
 
-A premium sports analytics dashboard and predictive engine built using standard front-end web technologies. This project is designed to demonstrate clean code separation, statistical data modeling, and interactive UI engineering.
+Interactive IPL statistics dashboard covering seasons 2008–2024. The project demonstrates client-side data loading, chart rendering, responsive UI, search, comparison workflows, and transparent cricket statistics logic.
 
-## 🚀 Live Demo
-👉 **[View Live Platform](https://ipl-intel.netlify.app/)**
+## Demo
 
----
+Live deployment: [IPL Intelligence](https://ipl-intel.netlify.app/)
 
-## 📂 Project Structure
+## Features
 
-To maintain clean architecture and code separation, the project is structured as follows:
+- Dashboard with season snapshot, standings, run scorers, wicket takers, toss impact, and match methods
+- Season archive with champions, finalists, awards, and title distribution
+- Player profiles with filtering, career statistics, form, and comparison
+- Team analytics with performance summaries and radar charts
+- Venue score and pitch intelligence
+- Match predictor using squad strength, head-to-head history, venue, and toss inputs
+- Fantasy XI generator with role balance, captain, vice-captain, points, and team value
+- Strategy insights, momentum, title distribution, and run-rate trends
+- Fuzzy player search with keyboard navigation
+- Dark and light themes with responsive desktop and mobile navigation
 
-```
+## Project Structure
+
+```text
 ipl-data-analysis/
-│
-├── index.html            # Main markup and application entry point
-├── .gitignore            # Git exclusion rules for OS/IDE temp files
-├── README.md             # Project documentation and engineering guide
-│
-├── css/
-│   └── style.css         # UI Design tokens, responsive grid layouts, and animations
-│
-└── js/
-    └── app.js            # State management, data stores, and prediction algorithms
+├── index.html             Application markup and page layout
+├── css/style.css          Design tokens, components, and responsive styles
+├── js/app.js              Data loading, routing, rendering, and interactions
+├── data.json              Curated IPL seasons, teams, players, venues, and matches
+├── tests/data.test.js     Dataset and version-integrity tests
+├── package.json           Scripts and development dependency metadata
+└── README.md              Setup and project documentation
 ```
 
-### File Details
-* **`index.html`**: Defines the semantic layout of the application, including the stats dashboards, team compare workspace, pitch view, and mobile navigation overlays.
-* **`css/style.css`**: Built with CSS Custom Properties (CSS variables) for full Dark/Light mode theme configurations. Features modern glassmorphic overlays, responsive flex and grid layouts, and hardware-accelerated transitions.
-* **`js/app.js`**: Contains the core application engine. Houses the active multi-season dataset (2008–2025), handles user interaction routing, runs the fuzzy-search queries, and executes statistical models.
+## Run Locally
 
----
+Requirements: Node.js 18 or newer.
 
-## 🛠️ Engineering Highlights & Algorithms
+```bash
+npm install
+npm run dev
+```
 
-### 1. Statistical Match Prediction Engine
-Unlike black-box models, the match predictor uses a transparent weighted algorithm based on actual match records:
-- **Squad Strength (60%)**: Calculates batting depth (aggregated player strike rates and averages) versus bowling strength (aggregated player economy rates and wickets).
-- **Head-to-Head Records (20%)**: Factors in historical win/loss ratios between the selected teams.
-- **Venue & Toss Advantage (20%)**: Calculates home-ground win rates and maps pitch character profiles (e.g., spin-friendly vs batting-paradise) against the teams' line-up styles.
+Open the local URL printed by Vite, usually `http://localhost:5173`.
 
-### 2. Fantasy XI Optimization Algorithm
-The squad generator runs an automated selection pass to build the highest-value playing eleven under standard budget constraints:
-- Evaluates individual player form and multi-season points yields.
-- Groups candidates by role (Batters, Bowlers, All-rounders, Wicketkeepers).
-- Ensures team compliance (correct ratio of roles and selection constraints).
+Run the integrity tests with:
 
-### 3. Fuzzy Search & Keyboard Navigation
-- **Search Queries**: Employs character-distance mapping to match player names on partial inputs (e.g., `vrat` → `Virat Kohli`).
-- **Interactive UI**: Supports standard accessibility shortcuts (`ArrowUp` / `ArrowDown` for navigation, `Enter` to select, and `Escape` to dismiss).
+```bash
+npm test
+```
 
----
+## Analytics Notes
 
-## 💻 Local Setup (Zero Dependencies)
+The predictor is a transparent heuristic rather than a production betting model. It combines team form, player batting and bowling aggregates, head-to-head records, venue tendencies, and toss context. Fantasy XI selection groups players by role and ranks candidates using the points and price fields in `data.json`.
 
-This application is built with standard web specs and requires **no compilation, bundlers, or package installations**:
+The dashboard dataset currently ends at the completed 2024 season. Source references and derived fields should be reviewed before using the project for formal cricket analysis.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/bitan01111/ipl-data-analysis.git
-   ```
-2. Serve locally or open directly:
-   ```bash
-   # Option A: Start a simple server using Python
-   python -m http.server 8000
-   
-   # Option B: Run via Node.js
-   npx serve .
-   ```
-   *Or double-click `index.html` to open it in your browser directly.*
+## Technology
+
+Vanilla HTML, CSS, and JavaScript; Vite for local development; Chart.js for visualizations; Node's built-in test runner for data integrity checks.
