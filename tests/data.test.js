@@ -4,8 +4,8 @@ const path = require('node:path');
 const test = require('node:test');
 
 const root = path.resolve(__dirname, '..');
-const data = JSON.parse(fs.readFileSync(path.join(root, 'data.json'), 'utf8'));
-const appSource = fs.readFileSync(path.join(root, 'js', 'app.js'), 'utf8');
+const data = JSON.parse(fs.readFileSync(path.join(root, 'src', 'data', 'data.json'), 'utf8'));
+const appSource = fs.readFileSync(path.join(root, 'src', 'app.js'), 'utf8');
 const htmlSource = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 
 test('dataset contains the documented latest season and core collections', () => {
@@ -38,5 +38,5 @@ test('application shell exposes every routed page and data entry point', () => {
     assert.match(htmlSource, new RegExp(`data-page="${page}"`));
   }
 
-  assert.match(appSource, /fetch\(['"]data\.json['"]\)/);
+  assert.match(appSource, /fetch\(['"]src\/data\/data\.json['"]\)/);
 });

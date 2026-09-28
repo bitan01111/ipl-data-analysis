@@ -38,7 +38,7 @@ const statusInt=setInterval(()=>{if(si<statusMsgs.length){statusEl.textContent=s
 
 window.addEventListener('load', async ()=>{
   try {
-    const res = await fetch('data.json');
+    const res = await fetch('src/data/data.json');
     const data = await res.json();
     SEASON_WINNERS = data.SEASON_WINNERS;
     DATA_YEAR = SEASON_WINNERS.at(-1)?.year || DATA_YEAR;

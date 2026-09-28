@@ -24,9 +24,10 @@ Live deployment: [IPL Intelligence](https://ipl-intel.netlify.app/)
 ```text
 ipl-data-analysis/
 ├── index.html             Application markup and page layout
-├── css/style.css          Design tokens, components, and responsive styles
-├── js/app.js              Data loading, routing, rendering, and interactions
-├── data.json              Curated IPL seasons, teams, players, venues, and matches
+├── src/
+│   ├── app.js             Data loading, routing, rendering, and interactions
+│   ├── data/data.json     Curated seasons, teams, players, venues, and matches
+│   └── styles/style.css   Design tokens, components, and responsive styles
 ├── docs/ARCHITECTURE.md   Runtime flow and ownership boundaries
 ├── tests/data.test.js     Dataset and version-integrity tests
 ├── tests/smoke.test.js    Deployable shell and asset checks
@@ -62,9 +63,9 @@ The dashboard dataset currently ends at the completed 2024 season. Source refere
 The application uses a small client-side architecture:
 
 1. `index.html` defines the routed page sections, controls, chart canvases, and modal shells.
-2. `data.json` is loaded once during startup and becomes the in-memory application store.
-3. `js/app.js` owns routing, search, calculations, event handling, and page rendering.
-4. `css/style.css` contains shared design tokens, layout systems, responsive rules, and component styles.
+2. `src/data/data.json` is loaded once during startup and becomes the in-memory application store.
+3. `src/app.js` owns routing, search, calculations, event handling, and page rendering.
+4. `src/styles/style.css` contains shared design tokens, layout systems, responsive rules, and component styles.
 5. Chart.js renders visualizations from the derived values produced by the render functions.
 6. `tests/data.test.js` protects the dataset contract, page shell, and season-version alignment.
 
