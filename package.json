@@ -4,7 +4,7 @@
   "description": "Interactive IPL analytics dashboard built with HTML, CSS, JavaScript, Chart.js, and a transparent statistics model.",
   "scripts": {
     "dev": "vite",
-    "test": "node --test tests/data.test.js",
+    "test": "node --test tests/data.test.js tests/smoke.test.js",
     "check": "npm test && node --check js/app.js"
   },
   "repository": {

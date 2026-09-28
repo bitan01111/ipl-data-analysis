@@ -27,7 +27,9 @@ ipl-data-analysis/
 ├── css/style.css          Design tokens, components, and responsive styles
 ├── js/app.js              Data loading, routing, rendering, and interactions
 ├── data.json              Curated IPL seasons, teams, players, venues, and matches
+├── docs/ARCHITECTURE.md   Runtime flow and ownership boundaries
 ├── tests/data.test.js     Dataset and version-integrity tests
+├── tests/smoke.test.js    Deployable shell and asset checks
 ├── package.json           Scripts and development dependency metadata
 └── README.md              Setup and project documentation
 ```
